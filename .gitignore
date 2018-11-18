@@ -7,7 +7,6 @@ __pycache__/
 *.db
 *.cfg
 *.json
-*.blend
 *.7z
 *.zip
 demo
