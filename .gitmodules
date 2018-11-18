@@ -1,0 +1,3 @@
+[submodule "game3"]
+	path = game3
+	url = https://github.com/DaedalusMDW/bge_game3_core.git
