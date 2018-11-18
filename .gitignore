@@ -7,8 +7,6 @@ __pycache__/
 *.db
 *.cfg
 *.json
-*.7z
-*.zip
 demo
 DEMO
 SCRIPTS
