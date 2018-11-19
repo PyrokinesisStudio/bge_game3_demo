@@ -216,7 +216,7 @@ class LAUNCHER:
 		OWNER["scroll"] = int(-CAM.worldPosition[1])
 
 		if keymap.SYSTEM["SCREENSHOT"].tap() == True:
-			settings.SCREENSHOT(True)
+			logic.globalDict["SCREENSHOT"]["Trigger"] = True
 
 	def EXECUTE(self):
 		self.history["ID"] = 0

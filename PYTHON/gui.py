@@ -146,6 +146,9 @@ def manageKeys(cont):
 	else:
 		info.text = ""
 
+	if keymap.SYSTEM["SCREENSHOT"].tap() == True:
+		logic.globalDict["SCREENSHOT"]["Trigger"] = True
+
 	scene.objects["Save"]["RAYCAST"] = False
 
 
