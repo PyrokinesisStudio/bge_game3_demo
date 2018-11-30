@@ -60,7 +60,7 @@ class LAUNCHER:
 		vsync:        toggle vsync
 		debug:        toggle debug properties; cfg file [master, fps, stats, properties]"""
 
-	VERSION = "0.5.0"
+	VERSION = "1.0.0"
 	OFFSET = 1
 
 	def __init__(self, OWNER):
