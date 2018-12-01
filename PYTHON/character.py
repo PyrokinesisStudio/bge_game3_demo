@@ -218,6 +218,7 @@ class BluePlayer(player.CorePlayer):
 				return
 
 		self.jump_state = "FALLING"
+		self.rayorder = "NONE"
 
 		if nrm != None and wall > 100:
 			self.doAnim(NAME="WallJump", FRAME=(0,0), PRIORITY=3, MODE="LOOP", BLEND=10)
@@ -249,6 +250,7 @@ class BluePlayer(player.CorePlayer):
 			if wall == True:
 				self.ST_EdgeFall_Set()
 				self.ST_Advanced_Set(wall)
+				self.rayorder = "END"
 
 
 class PurplePlayer(player.CorePlayer):
