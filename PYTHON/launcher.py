@@ -28,10 +28,14 @@ from game3 import settings, keymap
 
 def RUN(cont):
 
-	OWNER = cont.owner
+	owner = cont.owner
 
-	OWNER["Class"].RUN()
-	OWNER["Class"].STATS()
+	if owner.get("Class", None) == None:
+		logic.CLASS = LAUNCHER(owner)
+		owner["Class"] = logic.CLASS
+
+	owner["Class"].RUN()
+	owner["Class"].STATS()
 
 
 class LAUNCHER:
@@ -300,10 +304,6 @@ class LAUNCHER:
 		self.que = que
 
 
-OWNER = logic.getCurrentController().owner
-logic.CLASS = LAUNCHER(OWNER)
-OWNER["Class"] = logic.CLASS
-
 
 ## Command Functions ##
 
@@ -325,6 +325,7 @@ def RESUME(args=[], kwa=None):
 	profile = logic.globalDict["PROFILES"][current["Profile"]]
 
 	map = current["Level"]
+	scn = current["Scene"]
 
 	if map == None or map not in logic.globalDict["BLENDS"]:
 		logic.CLASS.NEWLINE("ERROR:", 1, 1, (0.3,0.5,0.7,1))
@@ -336,7 +337,7 @@ def RESUME(args=[], kwa=None):
 	#	logic.CLASS.NEWLINE("Something Happened...", 2, 2, (1,1,1,1))
 	#	return
 
-	settings.openWorldBlend(map)
+	settings.openWorldBlend(map, scn)
 	logic.CLASS.NEWLINE("LOADING...", 2, 2, (1,1,1,1))
 
 
@@ -652,8 +653,6 @@ def OPEN(args=[], kwa=None):
 
 		if map in logic.globalDict["BLENDS"]:
 			settings.openWorldBlend(map)
-			#logic.globalDict["CURRENT"]["Level"] = map
-			#logic.startGame(logic.expandPath("//MAPS/"+map))
 			return "LOAD"
 		ERROR()
 		return False
@@ -685,8 +684,6 @@ def OPEN(args=[], kwa=None):
 
 			if map in logic.globalDict["BLENDS"]:
 				settings.openWorldBlend(map)
-				#logic.globalDict["CURRENT"]["Level"] = map
-				#logic.startGame(logic.expandPath("//MAPS/"+map))
 				logic.CLASS.NEWLINE("LOADING...", 2, 2, (1,1,1,1))
 				return
 	ERROR()

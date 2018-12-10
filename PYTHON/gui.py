@@ -128,7 +128,8 @@ def manageKeys(cont):
 			else:
 				info.text = "Return to Game"
 				if ms[events.LEFTMOUSE] == 1:
-					settings.openWorldBlend(map)
+					scn = logic.globalDict["CURRENT"]["Scene"]
+					settings.openWorldBlend(map, scn)
 
 		elif rayOBJ.name == "Save":
 			info.text = "Save the Current Configuration"

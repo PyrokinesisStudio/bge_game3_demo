@@ -283,4 +283,10 @@ class Blast(door.CoreDoor):
 	TIME = 60
 	ANIM = {"OPEN":(0,240), "CLOSE":(240,0)}
 
+class SimpleKey(powerup.CoreKey):
+
+	SCALE = (0.1, 0.2, 0.05)
+	OFFSET = (0,0,0)
+	LOCK = 1
+
 

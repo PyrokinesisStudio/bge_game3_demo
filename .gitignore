@@ -14,6 +14,7 @@ TEXTURES
 MAPS
 FONTS
 CONTENT
+SCREENSHOTS
 
 # C extensions
 *.so
@@ -115,3 +116,4 @@ venv.bak/
 # mypy
 .mypy_cache/
 Game/gd_dump
+

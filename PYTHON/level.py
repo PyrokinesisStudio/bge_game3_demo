@@ -13,16 +13,7 @@ def INIT(cont):
 
 	owner = cont.owner
 
-	#BLACK = base.SC_SCN.addObject("GFX_Black", base.SC_CAM, 0)
-	#BLACK.setParent(base.SC_CAM)
-	#BLACK.color = (0, 0, 0, 1)
-
-	status = player.SPAWN(cont)
-
-	#if status == "DONE":
-	#	global BLACK
-	#	BLACK.endObject()
-	#	BLACK = None
+	player.SPAWN(cont)
 
 # Teleport
 def TELEPORT(cont):
@@ -93,9 +84,8 @@ def DOOR(cont):
 		if map in gd["BLENDS"]:
 			#cls.alignPlayer()
 			gd["DATA"]["Portal"]["Door"] = door
-			gd["DATA"]["Portal"]["Scene"] = scn
 
-			settings.openWorldBlend(map)
+			settings.openWorldBlend(map, scn)
 			owner["MAP"] = ""
 
 	if "GROUND" in owner:
@@ -152,9 +142,8 @@ def ZONE(cont):
 				lp, lr = cls.getTransformDiff(owner)
 				gd["DATA"]["Portal"]["Zone"] = [lp, lr]
 				gd["DATA"]["Portal"]["Door"] = door
-				gd["DATA"]["Portal"]["Scene"] = scn
 
-				settings.openWorldBlend(map)
+				settings.openWorldBlend(map, scn)
 				owner["MAP"] = ""
 		else:
 			owner["TIMER"] = 0
@@ -290,6 +279,25 @@ def SUN(cont):
 
 	if Z == True or Z == None:
 		owner.worldPosition[2] = parent.worldPosition[2]
+
+
+# Set Realtime Cubemap Origin
+def REFL(cont):
+
+	owner = cont.owner
+
+	if settings.config.UPBGE_FIX == True:
+
+		cube = owner.meshes[0].materials[0].textures[0]
+
+		if cube.renderer != None:
+			cube.renderer.autoUpdate = False
+			if owner.get("CLIP_START", None):
+				cube.renderer.clipStart = owner["CLIP_START"]
+			cube.renderer.viewpointObject = owner
+			cube.renderer.update()
+
+	owner.setVisible(False, True)
 
 
 # Define Texture UV Panning Functions
