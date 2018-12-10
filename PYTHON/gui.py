@@ -328,6 +328,8 @@ class SetBinds:
 
 	def getModifierColor(self, key):
 		modifiers = self.bind.modifiers
+		if self.bind.isModkey == True:
+			return Vector((0, 0, 0, 1))
 		if modifiers[key] == True:
 			return Vector((0, 0.4, 0.8, 1))
 		if modifiers[key] == False:
@@ -337,6 +339,8 @@ class SetBinds:
 
 	def setModifier(self, key):
 		modifiers = self.bind.modifiers
+		if self.bind.isModkey == True:
+			return
 		if modifiers[key] == None:
 			modifiers[key] = True
 		elif modifiers[key] == True:
@@ -393,9 +397,9 @@ class SetBinds:
 		for x in logic.keyboard.events:
 			if logic.keyboard.events[x] == 1 and x != events.ESCKEY:
 				KEY = events.EventToString(x)
-				for m in ["SHIFT", "CTRL", "ALT"]:
-					if m in KEY:
-						return "Use S, C, A buttons to add a mod key!"
+				#for m in ["SHIFT", "CTRL", "ALT"]:
+				#	if m in KEY:
+				#		return "Use S, C, A buttons to add a mod key!"
 
 		for y in logic.mouse.events:
 			if y not in [events.MOUSEX, events.MOUSEY]:
