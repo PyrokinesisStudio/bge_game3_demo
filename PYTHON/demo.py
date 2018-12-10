@@ -4,7 +4,8 @@
 
 from bge import logic
 
-from game3 import base, keymap, attachment, weapon, vehicle, door
+from game3 import (base, keymap, attachment,
+	weapon, vehicle, door, powerup)
 
 
 class JetPack(attachment.CoreAttachment):
