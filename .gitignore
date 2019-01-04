@@ -7,6 +7,7 @@ __pycache__/
 *.db
 *.cfg
 *.json
+*.zip
 demo
 DEMO
 SCRIPTS
@@ -15,6 +16,7 @@ MAPS
 FONTS
 CONTENT
 SCREENSHOTS
+gd_dump
 
 # C extensions
 *.so
@@ -115,5 +117,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-Game/gd_dump
 
