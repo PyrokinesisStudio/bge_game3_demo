@@ -8,7 +8,7 @@ from bge import logic, events, render
 
 from game3 import keymap, input, settings, config
 
-
+GAMMA = 2.2
 
 def RUN(cont):
 	if "Class" in cont.owner and logic.FREEZE == None:
@@ -158,9 +158,15 @@ class MouseSettings:
 	SLIDER = 8
 	MAX_SPEED = 100
 	MAX_SMOOTH = 144
-	COL_ACT = (0.0, 0.5, 1.0, 1)
-	COL_ON = (0.7, 0.7, 0.7, 1)
-	COL_OFF = (0.5, 0.5, 0.5, 1)
+	COL_ACT = [0.0, 0.5, 1.0, 1]
+	COL_ON  = [0.7, 0.7, 0.7, 1]
+	COL_OFF = [0.5, 0.5, 0.5, 1]
+
+	for i in [0,1,2,3]:
+		COL_ACT[i] = COL_ACT[i]**GAMMA
+		COL_ON[i] = COL_ON[i]**GAMMA
+		COL_OFF[i] = COL_OFF[i]**GAMMA
+
 
 	def __init__(self, owner, bind):
 		self.switch = False
@@ -282,9 +288,22 @@ class SetBinds:
 	ORI_NONE = ((0, 0, 0), (0, 0, 0), (0, 0, 0))
 	ORI_FLIP = ((1, 0, 0), (0, -1, 0), (0, 0, -1))
 
-	COL_ICO = (0.7, 0.7, 0.7, 1)
-	COL_ON = (0.0, 0.3, 0.5, 1)
-	COL_OFF = (0.3, 0.3, 0.3, 1)
+	COL_ICO = [0.7, 0.7, 0.7, 1]
+	COL_ON  = [0.0, 0.3, 0.5, 1]
+	COL_OFF = [0.3, 0.3, 0.3, 1]
+
+	MOD_TR = [0.0, 0.4, 0.8, 1]
+	MOD_FL = [0.6, 0.0, 0.0, 1]
+	MOD_NN = [0.5, 0.5, 0.5, 1]
+
+	for i in [0,1,2,3]:
+		COL_ICO[i] = COL_ICO[i]**GAMMA
+		COL_ON[i] = COL_ON[i]**GAMMA
+		COL_OFF[i] = COL_OFF[i]**GAMMA
+		MOD_TR[i] = MOD_TR[i]**GAMMA
+		MOD_FL[i] = MOD_FL[i]**GAMMA
+		MOD_NN[i] = MOD_NN[i]**GAMMA
+
 
 	def getString(self, arg):
 		if arg == None:
@@ -329,13 +348,13 @@ class SetBinds:
 	def getModifierColor(self, key):
 		modifiers = self.bind.modifiers
 		if self.bind.isModkey == True:
-			return Vector((0, 0, 0, 1))
+			return Vector([0, 0, 0, 1])
 		if modifiers[key] == True:
-			return Vector((0, 0.4, 0.8, 1))
+			return Vector(self.MOD_TR)
 		if modifiers[key] == False:
-			return Vector((0.6, 0, 0, 1))
+			return Vector(self.MOD_FL)
 		if modifiers[key] == None:
-			return Vector((0.5, 0.5, 0.5, 1))
+			return Vector(self.MOD_NN)
 
 	def setModifier(self, key):
 		modifiers = self.bind.modifiers
@@ -389,7 +408,7 @@ class SetBinds:
 			gamepad["Curve"] = "A"
 
 	def setKey(self):
-		self.objects["KEY"].color = (0, 0.5, 1, 1)
+		self.objects["KEY"].color = self.COL_ICO #(0, 0.5, 1, 1)
 		self.objects["KEY_VALUE"].color = (1,1,1,1)
 		self.objects["KEY_VALUE"].text = "Press New Key..."
 
@@ -397,9 +416,6 @@ class SetBinds:
 		for x in logic.keyboard.events:
 			if logic.keyboard.events[x] == 1 and x != events.ESCKEY:
 				KEY = events.EventToString(x)
-				#for m in ["SHIFT", "CTRL", "ALT"]:
-				#	if m in KEY:
-				#		return "Use S, C, A buttons to add a mod key!"
 
 		for y in logic.mouse.events:
 			if y not in [events.MOUSEX, events.MOUSEY]:
@@ -416,7 +432,7 @@ class SetBinds:
 
 		if logic.keyboard.events[events.ESCKEY] == 1 or KEY == "DONE":
 			self.objects["KEY_VALUE"].text = self.bind.input_name
-			self.objects["KEY_VALUE"].color = (0.5, 0.5, 0.5, 1)
+			self.objects["KEY_VALUE"].color = self.COL_ICO
 			return "END"
 
 		return "Press Any Key... ESC to Cancel... TIDLE (~) to Set 'None'..."
@@ -424,7 +440,7 @@ class SetBinds:
 	def setJoyButton(self):
 		if logic.joysticks[self.bind.gamepad["Index"]] == None:
 			return "END"
-		self.objects["BUT"].color = (0, 0.5, 1, 1)
+		self.objects["BUT"].color = self.COL_ICO #(0, 0.5, 1, 1)
 		self.objects["BUT_VALUE"].color = (1,1,1,1)
 		self.objects["BUT_VALUE"].text = "_"
 
@@ -445,7 +461,7 @@ class SetBinds:
 
 		if logic.keyboard.events[events.ESCKEY] == 1 or BUTID == "DONE":
 				self.objects["BUT_VALUE"].text = self.getString(self.bind.gamepad["Button"])
-				self.objects["BUT_VALUE"].color = (0.7, 0.7, 0.7, 1)
+				self.objects["BUT_VALUE"].color = self.COL_ICO
 				return "END"
 
 		return "Press Button... ESC to Cancel... TIDLE (~) to Set 'None'..."
@@ -453,7 +469,7 @@ class SetBinds:
 	def setJoyAxis(self):
 		if logic.joysticks[self.bind.gamepad["Index"]] == None:
 			return "END"
-		self.objects["AXIS"].color = (0, 0.5, 1, 1)
+		self.objects["AXIS"].color = self.COL_ICO #(0, 0.5, 1, 1)
 		self.objects["AXIS_VALUE"].color = (1,1,1,1)
 		self.objects["AXIS_VALUE"].text = "_"
 
@@ -480,7 +496,7 @@ class SetBinds:
 
 		if logic.keyboard.events[events.ESCKEY] == 1 or AXIS == "DONE":
 				self.objects["AXIS_VALUE"].text = self.getString(self.bind.gamepad["Axis"])
-				self.objects["AXIS_VALUE"].color = (0.7, 0.7, 0.7, 1)
+				self.objects["AXIS_VALUE"].color = self.COL_ICO
 				return "END"
 
 		return "Move Axis... ESC to Cancel... TIDLE (~) to Set 'None'..."
@@ -490,6 +506,7 @@ class SetBinds:
 		click = logic.mouse.events[events.LEFTMOUSE]
 		txt_list = ["KEY", "DEV", "BUT", "AXIS"]
 		ico_list = ["SWITCH", "AXIS_TYPE", "AXIS_CURVE"]
+		val_list = ["KEY_VALUE", "BUT_VALUE", "AXIS_VALUE"]
 
 		for key in objects:
 			obj = objects[key]
@@ -543,6 +560,9 @@ class SetBinds:
 					obj.color = self.getModifierColor("C")
 				if key == "MOD_ALT":
 					obj.color = self.getModifierColor("A")
+
+			if key in val_list:
+				obj.color = self.COL_ICO
 
 			if key == "AXIS_TYPE":
 				if ray == True and click == 1:

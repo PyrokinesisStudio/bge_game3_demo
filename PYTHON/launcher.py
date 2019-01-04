@@ -20,6 +20,7 @@
 ####
 
 ## LAUNCHER ##
+from mathutils import Vector
 
 from bge import logic, render
 
@@ -66,6 +67,7 @@ class LAUNCHER:
 
 	VERSION = "1.0.0"
 	OFFSET = 1
+	GAMMA = 2.2
 
 	def __init__(self, OWNER):
 		self.scene = logic.getCurrentScene()
@@ -99,8 +101,9 @@ class LAUNCHER:
 
 	def STATSLINE(self, keytext, valtext):
 		OBJ = self.scene.objects["Stats"]
-		col_key = (0.7, 0.7, 0.7, 1)
-		col_val = (1.0, 1.0, 1.0, 1)
+		v = 0.7**self.GAMMA
+		col_key = (v, v, v, 1)
+		col_val = (1, 1, 1, 1)
 
 		if keytext in self.statdict:
 			key = self.statdict[keytext][0]
@@ -276,6 +279,9 @@ class LAUNCHER:
 		if text != None:
 			last = self.scene.addObject("Text", self.owner, 0)
 			last.text = text
+			color = list(color)
+			for i in [0,1,2,3]:
+				color[i] = color[i]**self.GAMMA
 			last.color = color
 			last.worldPosition[0] += tab*2
 
